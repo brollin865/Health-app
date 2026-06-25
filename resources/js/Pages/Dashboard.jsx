@@ -64,15 +64,8 @@ function PatientDashboard({ stats }) {
 }
 
 function DoctorDashboard({ stats }) {
-    const monthlyData = [
-        { month:'Jan', consultations:5 }, { month:'Feb', consultations:8 },
-        { month:'Mar', consultations:12 },{ month:'Apr', consultations:7 },
-        { month:'May', consultations:15 },{ month:'Jun', consultations: stats?.pending ?? 8 },
-    ];
-    const pieData = [
-        { name:'Malaria', value:35 },{ name:'Typhoid', value:28 },
-        { name:'Flu', value:20 },{ name:'Other', value:17 },
-    ];
+    const monthlyData = stats?.monthly_consultations ?? [];
+    const pieData = stats?.diagnosis_distribution ?? [];
 
     return (
         <AppLayout title="Doctor Dashboard">
@@ -109,15 +102,19 @@ function DoctorDashboard({ stats }) {
                     {/* Pie Chart */}
                     <div className="bg-white rounded-xl shadow-sm p-5">
                         <h3 className="font-semibold text-blue-900 mb-4">Diagnosis Distribution</h3>
-                        <ResponsiveContainer width="100%" height={200}>
-                            <PieChart>
-                                <Pie data={pieData} cx="50%" cy="50%" innerRadius={50} outerRadius={80} dataKey="value" label={({ name, value }) => `${name} ${value}%`} labelLine={false}>
-                                    {pieData.map((_, i) => <Cell key={i} fill={COLORS[i]} />)}
-                                </Pie>
-                                <Tooltip />
-                                <Legend />
-                            </PieChart>
-                        </ResponsiveContainer>
+                        {pieData.length ? (
+                            <ResponsiveContainer width="100%" height={200}>
+                                <PieChart>
+                                    <Pie data={pieData} cx="50%" cy="50%" innerRadius={50} outerRadius={80} dataKey="value">
+                                        {pieData.map((_, i) => <Cell key={i} fill={COLORS[i]} />)}
+                                    </Pie>
+                                    <Tooltip formatter={(value, name) => [`${value}%`, name]} />
+                                    <Legend />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        ) : (
+                            <div className="h-50 flex items-center justify-center text-sm text-gray-400">No diagnosis data yet</div>
+                        )}
                     </div>
                 </div>
 

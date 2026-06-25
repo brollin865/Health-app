@@ -56,7 +56,7 @@ class SymptomCheckerController extends Controller
 
             $consultation = Consultation::create([
                 'patient_id'  => $patient->id,
-                'symptoms'    => json_encode($symptomIds),
+                'symptoms'    => $symptomIds,
                 'severity'    => $severity,
                 'notes'       => 'Auto-generated from symptom checker',
                 'status'      => 'pending',

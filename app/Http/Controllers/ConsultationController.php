@@ -1,6 +1,6 @@
 <?php
 namespace App\Http\Controllers;
-use App\Models\{Consultation,Patient,DiagnosisHistory};
+use App\Models\{Consultation,Patient,DiagnosisHistory,Symptom};
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -22,7 +22,8 @@ class ConsultationController extends Controller
     {
         $c = Consultation::with(['patient.user','diagnosis'])->findOrFail($id);
         $diagnoses = \App\Models\Diagnosis::all();
-        return Inertia::render('Consultations/Show', ['consultation'=>$c,'diagnoses'=>$diagnoses]);
+        $symptoms = Symptom::whereIn('id', $c->symptoms ?? [])->pluck('name');
+        return Inertia::render('Consultations/Show', ['consultation'=>$c,'diagnoses'=>$diagnoses,'symptomNames'=>$symptoms]);
     }
 
     public function store(Request $request)

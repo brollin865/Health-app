@@ -1,7 +1,7 @@
 import React from 'react';
 import AppLayout from '@/Layouts/AppLayout';
 import { useForm, usePage } from '@inertiajs/react';
-export default function ConsultationShow({ consultation, diagnoses }) {
+export default function ConsultationShow({ consultation, diagnoses, symptomNames }) {
     const { auth } = usePage().props;
     const isDoctor = auth?.user?.role === 'doctor';
     const { data, setData, put, processing } = useForm({ diagnosis_id: consultation.diagnosis_id??'', diagnosis_name:'', recommendation: consultation.recommendation??'', status: consultation.status??'pending' });
@@ -23,7 +23,7 @@ export default function ConsultationShow({ consultation, diagnoses }) {
                     <div className="grid grid-cols-2 gap-4 text-sm">
                         <div><span className="text-gray-500">Severity:</span> <span className="font-semibold ml-1">{consultation.severity}</span></div>
                         <div><span className="text-gray-500">Date:</span> <span className="font-semibold ml-1">{consultation.created_at?.split('T')[0]}</span></div>
-                        <div className="col-span-2"><span className="text-gray-500">Notes:</span> <span className="ml-1">{consultation.notes??'—'}</span></div>
+                        <div className="col-span-2"><span className="text-gray-500">Symptoms:</span> <span className="ml-1">{symptomNames?.length ? symptomNames.join(', ') : '—'}</span></div>
                     </div>
                 </div>
                 {isDoctor ? (

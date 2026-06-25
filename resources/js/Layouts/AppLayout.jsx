@@ -32,7 +32,7 @@ export default function AppLayout({ children, title = '' }) {
             <aside className={`${sideOpen ? 'w-56' : 'w-16'} bg-blue-900 text-white flex flex-col transition-all duration-200 shrink-0`}>
                 <div className="flex items-center gap-2 px-4 py-5 border-b border-blue-800">
                     <span className="text-2xl">⊕</span>
-                    {sideOpen && <span className="font-bold text-sm leading-tight">Health Monitor<br/><span className="text-xs text-blue-300">VU Group 7</span></span>}
+                    {sideOpen && <span className="font-bold text-sm leading-tight">Health Monitor</span>}
                 </div>
                 <nav className="flex-1 py-4 space-y-1 px-2">
                     {navItems.map(item => (
@@ -57,7 +57,6 @@ export default function AppLayout({ children, title = '' }) {
                         <h1 className="text-gray-800 font-semibold text-lg">{title}</h1>
                     </div>
                     <div className="flex items-center gap-4">
-                        <span className="text-sm text-gray-500">Entebbe General Referral Hospital</span>
                         <Link href="/logout" method="post" as="button"
                             className="text-sm bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg font-medium transition">
                             Logout

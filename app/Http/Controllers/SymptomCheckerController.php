@@ -24,7 +24,7 @@ class SymptomCheckerController extends Controller
 
         $patient = Patient::where('user_id',$request->user()->id)->first();
         if($patient){
-            $c = Consultation::create(['patient_id'=>$patient->id,'symptoms'=>json_encode($ids),'severity'=>$results->first()['priority']??'Low','notes'=>'Auto-generated from symptom checker','status'=>'pending']);
+            $c = Consultation::create(['patient_id'=>$patient->id,'symptoms'=>$ids,'severity'=>$results->first()['priority']??'Low','notes'=>'Auto-generated from symptom checker','status'=>'pending']);
             if($results->isNotEmpty())
                 DiagnosisHistory::create(['patient_id'=>$patient->id,'consultation_id'=>$c->id,'diagnosis'=>$results->first()['diagnosis'],'recommendation'=>$results->first()['recommendation']]);
         }

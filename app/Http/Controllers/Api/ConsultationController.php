@@ -50,14 +50,23 @@ class ConsultationController extends Controller
         return response()->json(['success' => true, 'data' => $consultation], 201);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $consultation = Consultation::with(['patient.user', 'diagnosis'])->findOrFail($id);
+
+        if ($request->user()->role === 'patient' && $consultation->patient->user_id !== $request->user()->id) {
+            abort(403);
+        }
+
         return response()->json(['success' => true, 'data' => $consultation]);
     }
 
     public function update(Request $request, $id)
     {
+        if ($request->user()->role === 'patient') {
+            abort(403);
+        }
+
         $consultation = Consultation::findOrFail($id);
 
         $consultation->update([

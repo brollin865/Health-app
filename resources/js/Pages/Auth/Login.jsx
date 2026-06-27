@@ -12,7 +12,6 @@ export default function Login() {
                         <span className="text-white text-3xl">⊕</span>
                     </div>
                     <h1 className="text-2xl font-bold text-blue-900">Health Monitor</h1>
-                    <p className="text-gray-500 text-sm mt-1">Entebbe General Referral Hospital</p>
                     <p className="text-gray-400 text-xs">Victoria University — Group 7</p>
                 </div>
                 <form onSubmit={submit} className="space-y-4">

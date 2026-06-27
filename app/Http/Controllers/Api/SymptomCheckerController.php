@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Diagnosis;
-use App\Models\Consultation;
-use App\Models\DiagnosisHistory;
-use App\Models\Patient;
 use Illuminate\Http\Request;
 
 class SymptomCheckerController extends Controller
@@ -46,32 +43,6 @@ class SymptomCheckerController extends Controller
                 'match_percent'  => $percentage,
             ];
         })->filter()->sortByDesc('score')->take(3)->values();
-
-        // Auto-create consultation
-        $patient = Patient::where('user_id', $request->user()->id)->first();
-
-        if ($patient) {
-            $topDiagnosis = $results->first();
-            $severity = $topDiagnosis['priority'] ?? 'Low';
-
-            $consultation = Consultation::create([
-                'patient_id'  => $patient->id,
-                'symptoms'    => $symptomIds,
-                'severity'    => $severity,
-                'notes'       => 'Auto-generated from symptom checker',
-                'status'      => 'pending',
-            ]);
-
-            // Save to diagnosis history
-            if ($topDiagnosis) {
-                DiagnosisHistory::create([
-                    'patient_id'      => $patient->id,
-                    'consultation_id' => $consultation->id,
-                    'diagnosis'       => $topDiagnosis['diagnosis'],
-                    'recommendation'  => $topDiagnosis['recommendation'],
-                ]);
-            }
-        }
 
         return response()->json([
             'success'     => true,

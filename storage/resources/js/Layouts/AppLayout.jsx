@@ -57,7 +57,6 @@ export default function AppLayout({ children, title = '' }) {
                         <h1 className="text-gray-800 font-semibold text-lg">{title}</h1>
                     </div>
                     <div className="flex items-center gap-4">
-                        <span className="text-sm text-gray-500">Entebbe General Referral Hospital</span>
                         <Link href="/logout" method="post" as="button"
                             className="text-sm bg-red-50 text-red-600 hover:bg-red-100 px-3 py-1.5 rounded-lg font-medium transition">
                             Logout

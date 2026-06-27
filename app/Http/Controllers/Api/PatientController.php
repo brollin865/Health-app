@@ -41,15 +41,25 @@ class PatientController extends Controller
         return response()->json(['success' => true, 'data' => $patient], 201);
     }
 
-    public function show($id)
+    public function show(Request $request, $id)
     {
         $patient = Patient::with('user')->findOrFail($id);
+
+        if ($request->user()->role === 'patient' && $patient->user_id !== $request->user()->id) {
+            abort(403);
+        }
+
         return response()->json(['success' => true, 'data' => $patient]);
     }
 
     public function update(Request $request, $id)
     {
         $patient = Patient::findOrFail($id);
+
+        if ($request->user()->role === 'patient' && $patient->user_id !== $request->user()->id) {
+            abort(403);
+        }
+
         $patient->update($request->all());
         return response()->json(['success' => true, 'data' => $patient]);
     }

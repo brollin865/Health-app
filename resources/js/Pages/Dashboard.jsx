@@ -34,7 +34,6 @@ function PatientDashboard({ stats }) {
             <div className="space-y-6">
                 <div className="bg-gradient-to-r from-blue-900 to-blue-700 rounded-xl p-6 text-white">
                     <h2 className="text-xl font-bold">Welcome back!</h2>
-                    <p className="text-blue-200 text-sm mt-1">Entebbe General Referral Hospital — Health Monitor</p>
                 </div>
                 <div className="grid grid-cols-3 gap-4">
                     <StatCard label="Total Consultations" value={stats?.total ?? 0}     color="#2E75B6" icon="📋" />
@@ -74,7 +73,6 @@ function DoctorDashboard({ stats }) {
                     <span className="text-4xl">🏥</span>
                     <div>
                         <h2 className="text-xl font-bold">Doctor Portal</h2>
-                        <p className="text-blue-200 text-sm">Entebbe General Referral Hospital</p>
                         <span className="inline-block mt-1 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">ONLINE</span>
                     </div>
                 </div>
@@ -159,7 +157,6 @@ function AdminDashboard({ stats }) {
                     <span className="text-4xl">🛡️</span>
                     <div>
                         <h2 className="text-xl font-bold">Administrator Panel</h2>
-                        <p className="text-purple-200 text-sm">Entebbe General Referral Hospital — System Overview</p>
                         <span className="inline-block mt-1 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full font-bold">SYSTEM ONLINE</span>
                     </div>
                 </div>

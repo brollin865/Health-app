@@ -22,7 +22,9 @@ class ConsultationController extends Controller
     {
         $c = Consultation::with(['patient.user','diagnosis'])->findOrFail($id);
         $diagnoses = \App\Models\Diagnosis::all();
-        $symptoms = Symptom::whereIn('id', $c->symptoms ?? [])->pluck('name');
+        $raw = $c->symptoms;
+        $symptomIds = is_array($raw) ? $raw : (json_decode($raw ?? '[]', true) ?? []);
+        $symptoms = Symptom::whereIn('id', $symptomIds)->pluck('name');
         return Inertia::render('Consultations/Show', ['consultation'=>$c,'diagnoses'=>$diagnoses,'symptomNames'=>$symptoms]);
     }
 
@@ -30,7 +32,7 @@ class ConsultationController extends Controller
     {
         $request->validate(['symptom_ids'=>'required|array','severity'=>'required','notes'=>'nullable']);
         $patient = Patient::where('user_id',$request->user()->id)->firstOrFail();
-        Consultation::create(['patient_id'=>$patient->id,'symptoms'=>json_encode($request->symptom_ids),'severity'=>$request->severity,'notes'=>$request->notes,'status'=>'pending']);
+        Consultation::create(['patient_id'=>$patient->id,'symptoms'=>$request->symptom_ids,'severity'=>$request->severity,'notes'=>$request->notes,'status'=>'pending']);
         return redirect()->route('consultations.index')->with('success','Consultation submitted!');
     }
 

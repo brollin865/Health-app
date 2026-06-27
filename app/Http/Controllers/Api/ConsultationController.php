@@ -41,7 +41,7 @@ class ConsultationController extends Controller
 
         $consultation = Consultation::create([
             'patient_id' => $patient->id,
-            'symptoms'   => json_encode($request->symptom_ids),
+            'symptoms'   => $request->symptom_ids,
             'severity'   => $request->severity,
             'notes'      => $request->notes,
             'status'     => 'pending',
